@@ -53,12 +53,12 @@ CAROUSEL_LEFT_X = (CANVAS_WIDTH - CAROUSEL_FIXED_MAX_WIDTH) // 2
 def get_safe_font(font_path, font_size):
     if not os.path.exists(font_path):
         # Try looking in static or current directory
-        potential_path = os.path.join("static", font_path)
+        potential_path = os.path.join(BASE_DIR, "static", font_path)
         if os.path.exists(potential_path):
             font_path = potential_path
         else:
              import glob
-             fonts = glob.glob("*.otf") + glob.glob("*.ttf")
+             fonts = glob.glob(os.path.join(BASE_DIR, "*.otf")) + glob.glob(os.path.join(BASE_DIR, "*.ttf"))
              font_path = fonts[0] if fonts else "arial.ttf"
 
     try:
@@ -105,8 +105,8 @@ def index():
 def generate_posts():
     try:
         # "Aesthetic" Configuration
-        font_path = "NeueMontreal-Regular.otf"
-        base_img_path = "Post LOAK.png"
+        font_path = os.path.join(BASE_DIR, "NeueMontreal-Regular.otf")
+        base_img_path = os.path.join(BASE_DIR, "Post LOAK.png")
         
         task_id = str(uuid.uuid4())
         task_dir = os.path.join(TEMP_FOLDER, task_id)
@@ -120,7 +120,7 @@ def generate_posts():
             request.files['csv_file'].save(process_csv_path)
         else:
             # Local fallback for development
-            local_csv = "quotes_150_completo.csv"
+            local_csv = os.path.join(BASE_DIR, "quotes_150_completo.csv")
             if os.path.exists(local_csv):
                  shutil.copy(local_csv, process_csv_path)
             else:
@@ -255,8 +255,8 @@ def generate_posts():
 @app.route('/generate_carousels', methods=['POST'])
 def generate_carousels():
     try:
-        font_path = "NeueMontreal-Regular.otf"
-        base_img_path = "Post LOAK.png"
+        font_path = os.path.join(BASE_DIR, "NeueMontreal-Regular.otf")
+        base_img_path = os.path.join(BASE_DIR, "Post LOAK.png")
         
         task_id = str(uuid.uuid4())
         task_dir = os.path.join(TEMP_FOLDER, task_id)
@@ -270,7 +270,7 @@ def generate_carousels():
             request.files['carousel_csv'].save(process_csv_path)
         else:
              # Try fallback
-             local_csv = "carruseles_lawofattractionkey (1).csv"
+             local_csv = os.path.join(BASE_DIR, "carruseles_lawofattractionkey (1).csv")
              if os.path.exists(local_csv):
                  shutil.copy(local_csv, process_csv_path)
              else:
