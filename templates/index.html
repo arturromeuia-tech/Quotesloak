@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quotesloak</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        color: #1f1f1f;
+      }
+      h1 {
+        margin-bottom: 0.25rem;
+      }
+      section {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        border: 1px solid #e2e2e2;
+        border-radius: 8px;
+      }
+      label {
+        display: block;
+        margin-top: 1rem;
+      }
+      button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        background: #1f1f1f;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Quotesloak</h1>
+    <p>Genera posts o carruseles cargando tu CSV y la imagen base.</p>
+
+    <section>
+      <h2>Generar posts</h2>
+      <form action="/generate" method="post" enctype="multipart/form-data">
+        <label>
+          CSV de posts
+          <input type="file" name="csv_file" accept=".csv" />
+        </label>
+        <label>
+          Imagen base
+          <input type="file" name="image_file" accept="image/*" />
+        </label>
+        <button type="submit">Generar</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Generar carruseles</h2>
+      <form action="/generate_carousels" method="post" enctype="multipart/form-data">
+        <label>
+          CSV de carruseles
+          <input type="file" name="carousel_csv" accept=".csv" />
+        </label>
+        <label>
+          Imagen base
+          <input type="file" name="image_file" accept="image/*" />
+        </label>
+        <button type="submit">Generar</button>
+      </form>
+    </section>
+  </body>
+</html>
