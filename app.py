@@ -99,7 +99,7 @@ def wrap_text(text, font, max_width, draw):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', app_version=os.environ.get('APP_VERSION', 'v2'))
 
 @app.route('/generate', methods=['POST'])
 def generate_posts():
