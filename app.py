@@ -5,7 +5,7 @@ import zipfile
 import base64
 import uuid
 import shutil
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, make_response
 from PIL import Image, ImageDraw, ImageFont
 
 app = Flask(__name__)
@@ -99,7 +99,16 @@ def wrap_text(text, font, max_width, draw):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    html = render_template(
+        'index.html',
+        app_version=os.environ.get('APP_VERSION', 'v3'),
+        railway_release=os.environ.get('RAILWAY_GIT_COMMIT_SHA', 'local-build')[:8]
+    )
+    response = make_response(html)
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/generate', methods=['POST'])
 def generate_posts():

@@ -5,67 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Quotesloak</title>
     <style>
+      :root {
+        --bg-1: #0c0c10;
+        --bg-2: #191922;
+        --card: #13141a;
+        --accent: #c5a55f;
+        --text: #f4f1ea;
+        --muted: #a2a5ad;
+        --line: rgba(255, 255, 255, 0.08);
+      }
+      * { box-sizing: border-box; }
       body {
-        font-family: Arial, sans-serif;
-        margin: 2rem;
-        color: #1f1f1f;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at top, #242430 0%, var(--bg-1) 60%);
       }
-      h1 {
-        margin-bottom: 0.25rem;
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 20px 56px; }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
       }
-      section {
-        margin-top: 2rem;
-        padding: 1.5rem;
-        border: 1px solid #e2e2e2;
-        border-radius: 8px;
+      .brand { display: flex; align-items: center; gap: 12px; }
+      .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 8px rgba(197, 165, 95, 0.15);
       }
-      label {
-        display: block;
-        margin-top: 1rem;
+      .brand h1 { margin: 0; font-size: 1.25rem; letter-spacing: 0.04em; }
+      .version {
+        font-size: 0.75rem;
+        color: #1a1a1a;
+        background: linear-gradient(120deg, #f8dc97, #c5a55f);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-weight: 700;
+      }
+      .hero {
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 28px;
+      }
+      .hero h2 { margin: 0 0 8px; font-size: clamp(1.8rem, 4vw, 2.6rem); }
+      .hero p { margin: 0; color: var(--muted); line-height: 1.6; max-width: 800px; }
+      .cards {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 20px;
+      }
+      .card h3 { margin: 0 0 8px; }
+      .card p { margin: 0 0 14px; color: var(--muted); }
+      form { display: grid; gap: 12px; }
+      label { display: grid; gap: 6px; font-size: 0.92rem; }
+      input[type="file"] {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px dashed rgba(255, 255, 255, 0.2);
+        background: #0e0f14;
+        color: var(--muted);
+        padding: 10px;
       }
       button {
-        margin-top: 1rem;
-        padding: 0.5rem 1rem;
         border: none;
-        background: #1f1f1f;
-        color: #fff;
-        border-radius: 4px;
+        border-radius: 999px;
+        padding: 12px 16px;
+        background: linear-gradient(120deg, #c5a55f, #f5d488);
+        color: #1b1b1b;
+        font-weight: 700;
         cursor: pointer;
+      }
+      footer {
+        margin-top: 24px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        text-align: center;
       }
     </style>
   </head>
   <body>
-    <h1>Quotesloak</h1>
-    <p>Genera posts o carruseles cargando tu CSV y la imagen base.</p>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <div class="dot"></div>
+          <h1>Quotesloak Studio</h1>
+        </div>
+        <div class="version">DISEÑO WEB NUEVO · {{ app_version }} · build {{ railway_release }}</div>
+      </div>
 
-    <section>
-      <h2>Generar posts</h2>
-      <form action="/generate" method="post" enctype="multipart/form-data">
-        <label>
-          CSV de posts
-          <input type="file" name="csv_file" accept=".csv" />
-        </label>
-        <label>
-          Imagen base
-          <input type="file" name="image_file" accept="image/*" />
-        </label>
-        <button type="submit">Generar</button>
-      </form>
-    </section>
+      <section class="hero">
+        <h2>DISEÑO ACTIVO EN SERVIDOR</h2>
+        <p>
+          Sube CSV + imagen base para generar posts y carruseles en lotes.
+          Esta vista incluye una etiqueta de versión para confirmar que estás viendo el diseño actualizado.
+        </p>
+      </section>
 
-    <section>
-      <h2>Generar carruseles</h2>
-      <form action="/generate_carousels" method="post" enctype="multipart/form-data">
-        <label>
-          CSV de carruseles
-          <input type="file" name="carousel_csv" accept=".csv" />
-        </label>
-        <label>
-          Imagen base
-          <input type="file" name="image_file" accept="image/*" />
-        </label>
-        <button type="submit">Generar</button>
-      </form>
-    </section>
+      <div class="cards">
+        <section class="card">
+          <h3>Generar posts</h3>
+          <p>Ideal para feed: usa <strong>texto_linea1</strong> y <strong>texto_linea2</strong>.</p>
+          <form action="/generate" method="post" enctype="multipart/form-data">
+            <label>CSV de posts <input type="file" name="csv_file" accept=".csv" /></label>
+            <label>Imagen base <input type="file" name="image_file" accept="image/*" /></label>
+            <button type="submit">Generar posts</button>
+          </form>
+        </section>
+
+        <section class="card">
+          <h3>Generar carruseles</h3>
+          <p>Usa columnas <strong>carrusel_id</strong> y <strong>slide_numero</strong>.</p>
+          <form action="/generate_carousels" method="post" enctype="multipart/form-data">
+            <label>CSV de carruseles <input type="file" name="carousel_csv" accept=".csv" /></label>
+            <label>Imagen base <input type="file" name="image_file" accept="image/*" /></label>
+            <button type="submit">Generar carruseles</button>
+          </form>
+        </section>
+      </div>
+
+      <footer>Si no ves este diseño en Railway, fuerza redeploy y limpia caché del navegador.</footer>
+    </div>
   </body>
 </html>
